@@ -2,7 +2,7 @@ class TableRenderer {
   constructor(view, viewSize, data) {
     this.view = view;
     this.data = data;
-    this.rowHeight = 30;
+    this.rowHeight = 20;
     this.viewSize = viewSize;
     this.startVisible = 0;
     this.endVisible = 0;
@@ -10,17 +10,26 @@ class TableRenderer {
   }
 
   renderRows() {
-    const visibleRows = this.getVisibleRows(this.data.rows, this.rowHeight, this.viewSize);
-    this.data.visibleRows = visibleRows;
-    console.log(this.data.visibleRows);
-   
+    this.clear();
+    this.data.visibleRows = this.getVisibleRows(this.data.rows, this.rowHeight, this.viewSize);
+
+    this.data.visibleRows.forEach((row) => {
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      const text = document.createTextNode('woah');
+      td.appendChild(text);
+      tr.appendChild(td);
+      this.view.appendChild(tr);
+    })
   }
 
   getVisibleRows(data, rowHeight, viewSize) {
-    console.log('get visible rows. Height: ' + rowHeight + ' data: ' + data.length);
     const startPosition = 0;
     const endPosition = startPosition + (viewSize.height / rowHeight);
-    console.log(viewSize / rowHeight);
     return data.slice(startPosition, endPosition);;
+  }
+
+  clear() {
+    this.view.innerHTML = '';
   }
 }
